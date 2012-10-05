@@ -165,6 +165,7 @@ transition. This state transition will be chained and will happen when
 all callbacksfor current state are finished.
 
 Example:
+
         def on_panic(e):
             print 'panic! ' + e.msg
             fsm.transition_to('black')
