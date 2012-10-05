@@ -9,8 +9,6 @@ See the pydoc in fysom.py
 Usage
 =====
 
-USAGE
-
 from state_machine import FiniteStateMachine
 
         fsm = FiniteStateMachine({
@@ -39,7 +37,7 @@ along with the following members:
   - fsm.cannot(e)  - return True if event s cannot be fired in the
                      current state
 
-MULTIPLE SRC AND TO STATES FOR A SINGLE EVENT
+Multiple src and to states for a single event
 ---------------------------------------------
 
         fsm = FiniteStateMachine({
@@ -64,7 +62,7 @@ event will transition to a state that is dependent on the current state.
 NOTE the rest event in the above example can also be specified as
 multiple events with the same name if you prefer the verbose approach.
 
-CALLBACKS
+Callbacks
 ---------
 
 4 callbacks are available if your state machine has methods using the
@@ -144,7 +142,7 @@ any time:
         del fsm.onred
         fsm.onchangestate = printstatechange
 
-ASYNCHRONOUS STATE TRANSITIONS
+Asynchronous State Transitions
 ------------------------------
 
 Sometimes, you need to execute some asynchronous code during a state
@@ -161,7 +159,7 @@ transition using transition() method.
 
 Example: TODO
 
-INITIALIZATION OPTIONS
+Initialization Options
 ----------------------
 
 How the state machine should initialize can depend on your application
