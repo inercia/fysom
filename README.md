@@ -2,9 +2,7 @@
 Description
 ===========
 
-Improved state machine
-
-See the pydoc in fysom.py
+An improved state machine for Python
 
 Usage
 =====
@@ -158,6 +156,18 @@ machine will be put on hold until you are ready to trigger the
 transition using transition() method.
 
 Example: TODO
+
+Internal State Transitions
+--------------------------
+
+You can trigger a state transition from withing the current state
+transition. This state transition will be chained and will happen when
+all callbacksfor current state are finished.
+
+Example:
+        def on_panic(e):
+            print 'panic! ' + e.msg
+            fsm.transition_to('black')
 
 Initialization Options
 ----------------------
