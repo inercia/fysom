@@ -13,15 +13,15 @@ USAGE
 
 from state_machine import FiniteStateMachine
 
-fsm = FiniteStateMachine({
-  'initial': 'green',
-  'events': [
-    {'name': 'warn',  'src': 'green',  'dst': 'yellow'},
-    {'name': 'panic', 'src': 'yellow', 'dst': 'red'},
-    {'name': 'calm',  'src': 'red',    'dst': 'yellow'},
-    {'name': 'clear', 'src': 'yellow', 'dst': 'green'}
-  ]
-})
+        fsm = FiniteStateMachine({
+          'initial': 'green',
+          'events': [
+            {'name': 'warn',  'src': 'green',  'dst': 'yellow'},
+            {'name': 'panic', 'src': 'yellow', 'dst': 'red'},
+            {'name': 'calm',  'src': 'red',    'dst': 'yellow'},
+            {'name': 'clear', 'src': 'yellow', 'dst': 'green'}
+          ]
+        })
 
 ... will create an object with a method for each event:
 
@@ -42,16 +42,16 @@ along with the following members:
 MULTIPLE SRC AND TO STATES FOR A SINGLE EVENT
 ---------------------------------------------
 
-fsm = FiniteStateMachine({
-  'initial': 'hungry',
-  'events': [
-    {'name': 'eat',  'src': 'hungry',    'dst': 'satisfied'},
-    {'name': 'eat',  'src': 'satisfied', 'dst': 'full'},
-    {'name': 'eat',  'src': 'full',      'dst': 'sick'},
-    {'name': 'rest', 'src': ['hungry', 'satisfied', 'full', 'sick'],
-                                         'dst': 'hungry'}
-  ]
-})
+        fsm = FiniteStateMachine({
+          'initial': 'hungry',
+          'events': [
+            {'name': 'eat',  'src': 'hungry',    'dst': 'satisfied'},
+            {'name': 'eat',  'src': 'satisfied', 'dst': 'full'},
+            {'name': 'eat',  'src': 'full',      'dst': 'sick'},
+            {'name': 'rest', 'src': ['hungry', 'satisfied', 'full', 'sick'],
+                                                 'dst': 'hungry'}
+          ]
+        })
 
 This example will create an object with 2 event methods:
 
@@ -106,43 +106,43 @@ shoot yourself in the foot if you're not careful.
 
 Callbacks can be specified when the state machine is first created:
 
-def on_panic(e): print 'panic! ' + e.msg
-def on_calm(e): print 'thanks to ' + e.msg
-def on_green(e): print 'green'
-def on_yellow(e): print 'yellow'
-def on_red(e): print 'red'
+        def on_panic(e): print 'panic! ' + e.msg
+        def on_calm(e): print 'thanks to ' + e.msg
+        def on_green(e): print 'green'
+        def on_yellow(e): print 'yellow'
+        def on_red(e): print 'red'
 
-fsm = FiniteStateMachine({
-  'initial': 'green',
-  'events': [
-    {'name': 'warn',  'src': 'green',  'dst': 'yellow'},
-    {'name': 'panic', 'src': 'yellow', 'dst': 'red'},
-    {'name': 'panic', 'src': 'green',  'dst': 'red'},
-    {'name': 'calm',  'src': 'red',    'dst': 'yellow'},
-    {'name': 'clear', 'src': 'yellow', 'dst': 'green'}
-  ],
-  'callbacks': {
-    'on_panic':  onpanic,
-    'on_calm':   oncalm,
-    'on_green':  ongreen,
-    'on_yellow': onyellow,
-    'on_red':    onred
-  }
-})
+        fsm = FiniteStateMachine({
+          'initial': 'green',
+          'events': [
+            {'name': 'warn',  'src': 'green',  'dst': 'yellow'},
+            {'name': 'panic', 'src': 'yellow', 'dst': 'red'},
+            {'name': 'panic', 'src': 'green',  'dst': 'red'},
+            {'name': 'calm',  'src': 'red',    'dst': 'yellow'},
+            {'name': 'clear', 'src': 'yellow', 'dst': 'green'}
+          ],
+          'callbacks': {
+            'on_panic':  onpanic,
+            'on_calm':   oncalm,
+            'on_green':  ongreen,
+            'on_yellow': onyellow,
+            'on_red':    onred
+          }
+        })
 
-fsm.panic(msg='killer bees')
-fsm.calm(msg='sedatives in the honey pots')
+        fsm.panic(msg='killer bees')
+        fsm.calm(msg='sedatives in the honey pots')
 
 Additionally, they can be added and removed from the state machine at
 any time:
 
-def printstatechange(e):
-  print 'event: %s, src: %s, dst: %s' % (e.event, e.src, e.dst)
+        def printstatechange(e):
+          print 'event: %s, src: %s, dst: %s' % (e.event, e.src, e.dst)
 
-del fsm.ongreen
-del fsm.onyellow
-del fsm.onred
-fsm.onchangestate = printstatechange
+        del fsm.ongreen
+        del fsm.onyellow
+        del fsm.onred
+        fsm.onchangestate = printstatechange
 
 ASYNCHRONOUS STATE TRANSITIONS
 ------------------------------
@@ -171,55 +171,55 @@ By default, if you don't specify any initial state, the state machine
 will be in the 'none' state and you would need to provide an event to
 take it out of this state:
 
-fsm = FiniteStateMachine({
-  'events': [
-    {'name': 'startup', 'src': 'none',  'dst': 'green'},
-    {'name': 'panic',   'src': 'green', 'dst': 'red'},
-    {'name': 'calm',    'src': 'red',   'dst': 'green'},
-  ]
-})
-print fsm.current # "none"
-fsm.startup()
-print fsm.current # "green"
+        fsm = FiniteStateMachine({
+          'events': [
+            {'name': 'startup', 'src': 'none',  'dst': 'green'},
+            {'name': 'panic',   'src': 'green', 'dst': 'red'},
+            {'name': 'calm',    'src': 'red',   'dst': 'green'},
+          ]
+        })
+        print fsm.current # "none"
+        fsm.startup()
+        print fsm.current # "green"
 
 If you specifiy the name of you initial event (as in all the earlier
 examples), then an implicit 'startup' event will be created for you and
 fired when the state machine is constructed:
 
-fsm = FiniteStateMachine({
-  'initial': 'green',
-  'events': [
-    {'name': 'panic', 'src': 'green', 'dst': 'red'},
-    {'name': 'calm',  'src': 'red',   'dst': 'green'},
-  ]
-})
-print fsm.current # "green"
+        fsm = FiniteStateMachine({
+          'initial': 'green',
+          'events': [
+            {'name': 'panic', 'src': 'green', 'dst': 'red'},
+            {'name': 'calm',  'src': 'red',   'dst': 'green'},
+          ]
+        })
+        print fsm.current # "green"
 
 If your object already has a startup method, you can use a different
 name for the initial event:
 
-fsm = FiniteStateMachine({
-  'initial': {'state': 'green', 'event': 'init'},
-  'events': [
-    {'name': 'panic', 'src': 'green', 'dst': 'red'},
-    {'name': 'calm',  'src': 'red',   'dst': 'green'},
-  ]
-})
-print fsm.current # "green"
+        fsm = FiniteStateMachine({
+          'initial': {'state': 'green', 'event': 'init'},
+          'events': [
+            {'name': 'panic', 'src': 'green', 'dst': 'red'},
+            {'name': 'calm',  'src': 'red',   'dst': 'green'},
+          ]
+        })
+        print fsm.current # "green"
 
 Finally, if you want to wait to call the initiall state transition
 event until a later date, you can defer it:
 
-fsm = FiniteStateMachine({
-  'initial': {'state': 'green', 'event': 'init', 'defer': True},
-  'events': [
-    {'name': 'panic', 'src': 'green', 'dst': 'red'},
-    {'name': 'calm',  'src': 'red',   'dst': 'green'},
-  ]
-})
-print fsm.current # "none"
-fsm.init()
-print fsm.current # "green"
+        fsm = FiniteStateMachine({
+          'initial': {'state': 'green', 'event': 'init', 'defer': True},
+          'events': [
+            {'name': 'panic', 'src': 'green', 'dst': 'red'},
+            {'name': 'calm',  'src': 'red',   'dst': 'green'},
+          ]
+        })
+        print fsm.current # "none"
+        fsm.init()
+        print fsm.current # "green"
 
 Of course, we have now come full circle, this last example pretty much
 functions the same as the first example in this section where you simply
